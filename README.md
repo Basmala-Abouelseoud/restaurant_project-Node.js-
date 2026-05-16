@@ -39,24 +39,35 @@ It also includes JWT authentication, role-based authorization, image upload func
 
 ## Project Structure
 
-```
-auth/
-booking/
-contact/
-menu/
-
-controllers/
-middleware/
-models/
-routes/
-services/
-
-images/        → folder storing uploaded menu images
-
-.env
-index.js
-package.json
-```
+restaurant_project/
+├── src/
+│   ├── middleware/
+│   │   └── globalErrorHandler.js
+│   │
+│   ├── utils/
+│   │   ├── errorCodes.js
+│   │   └── response.js
+│   │
+│   ├── images/               # Directory for uploaded menu images
+│   │
+│   └── modules/              # Modular architecture features
+│       ├── auth/
+│       ├── booking/
+│       │   ├── controllers/
+│       │   │   └── booking.controller.js
+│       │   ├── routes/
+│       │   │   └── booking.route.js
+│       │   ├── services/
+│       │   │   └── booking.service.js
+│       │   └── index.js
+│       ├── category/
+│       ├── contact/
+│       ├── dashboard/
+│       └── menu/
+│
+├── .env
+├── index.js                  # App entry point (Server configuration)
+└── package.json
 
 Each module follows a modular structure separating business logic from routing.
 
@@ -116,13 +127,19 @@ Swagger provides interactive testing for all endpoints including authentication,
 
 The API includes endpoints for:
 
-* Authentication (Register / Login)
-* Menu / Products management
-* Bookings
-* Contact messages
-* User management
+*Authentication (Register / Login)
 
-These endpoints are designed to be consumed by a frontend application such as Angular.
+*Categories (Menu classification)
+
+*Menu / Products (Dishes management & Image uploads)
+
+*Bookings (Reservations workflow & status updates)
+
+*Dashboard (Admin analytics & business stats)
+
+*Contact messages (Customer inquiries & feedback)
+
+These endpoints are designed to be consumed by a frontend application -Angular- .
 
 ---
 
@@ -131,13 +148,6 @@ These endpoints are designed to be consumed by a frontend application such as An
 <img width="1865" height="675" alt="image" src="https://github.com/user-attachments/assets/02924ce3-4639-4b05-b247-7752324bd447" />
 <img width="1883" height="586" alt="image" src="https://github.com/user-attachments/assets/bf9833d0-1a84-4654-acc5-18c359ae1d84" />
 
-
-Example:
-
-* Authentication endpoints
-* Menu endpoints
-* Booking endpoints
-* Contact endpoints
 
 
 
