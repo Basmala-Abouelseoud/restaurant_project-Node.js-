@@ -68,7 +68,7 @@ restaurant_project/
 └── package.json
 
 Each module follows a modular structure separating business logic from routing.
-
+```
 ---
 
 ## Installation
