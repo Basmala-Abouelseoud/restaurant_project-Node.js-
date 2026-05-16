@@ -64,7 +64,6 @@ restaurant_project/
 ├── .env
 ├── index.js                  # App entry point (Server configuration)
 └── package.json
-
 Each module follows a modular structure separating business logic from routing.
 
 ---
