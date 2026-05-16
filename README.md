@@ -43,28 +43,24 @@ restaurant_project/
 ├── src/
 │   ├── middleware/
 │   │   └── globalErrorHandler.js
-│   │
+│   ├── modules/
+│   │   ├── auth/
+│   │   ├── booking/
+│   │   │   ├── controllers/
+│   │   │   │   └── booking.controller.js
+│   │   │   ├── routes/
+│   │   │   │   └── booking.route.js
+│   │   │   ├── services/
+│   │   │   │   └── booking.service.js
+│   │   │   └── index.js
+│   │   ├── category/
+│   │   ├── contact/
+│   │   ├── dashboard/
+│   │   └── menu/
 │   ├── utils/
 │   │   ├── errorCodes.js
 │   │   └── response.js
-│   │
-│   ├── images/               # Directory for uploaded menu images
-│   │
-│   └── modules/              # Modular architecture features
-│       ├── auth/
-│       ├── booking/
-│       │   ├── controllers/
-│       │   │   └── booking.controller.js
-│       │   ├── routes/
-│       │   │   └── booking.route.js
-│       │   ├── services/
-│       │   │   └── booking.service.js
-│       │   └── index.js
-│       ├── category/
-│       ├── contact/
-│       ├── dashboard/
-│       └── menu/
-│
+│   └── images/               # Folder storing uploaded menu images
 ├── .env
 ├── index.js                  # App entry point (Server configuration)
 └── package.json
@@ -144,9 +140,10 @@ These endpoints are designed to be consumed by a frontend application -Angular- 
 ---
 
 ## Swagger Documentation Preview
+<img width="1804" height="796" alt="129" src="https://github.com/user-attachments/assets/1252cef0-6df9-43be-8ad9-08eed5cebb08" />
+<img width="1799" height="586" alt="وة9" src="https://github.com/user-attachments/assets/a9d3e13b-ba94-4f44-95b8-d36ee686aafa" />
+<img width="1810" height="667" alt="Capture1236" src="https://github.com/user-attachments/assets/db7fcec1-c63f-4710-aeec-5b00436a0ce9" />
 
-<img width="1865" height="675" alt="image" src="https://github.com/user-attachments/assets/02924ce3-4639-4b05-b247-7752324bd447" />
-<img width="1883" height="586" alt="image" src="https://github.com/user-attachments/assets/bf9833d0-1a84-4654-acc5-18c359ae1d84" />
 
 
 
