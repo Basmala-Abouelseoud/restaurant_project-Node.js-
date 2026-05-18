@@ -22,7 +22,7 @@ const app = express();
 // ─── CORS ─────────────────────────────────────────────────────────────────────
 app.use(
   cors({
-    origin: '*', 
+    origin: '*',
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
@@ -34,7 +34,7 @@ app.use(express.json());
 // ─── Static files ─────────────────────────────────────────────────────────────
 app.use('/images', express.static(path.join(__dirname, 'src', 'images')));
 
-// ─── Database  ────────────────────────────────────────────
+// ─── Database ────────────────────────────────────────────
 let isConnected = false;
 const connectDB = async () => {
   if (isConnected) return;
@@ -57,7 +57,7 @@ const swaggerOptions = {
   definition: {
     openapi: '3.0.0',
     info: { title: 'Restaurant API', version: '1.0.0' },
-    servers: [{ url: 'https://your-project.vercel.app' }],
+    servers: [{ url: 'https://restaurant-project-node-js.vercel.app' }],
     components: {
       securitySchemes: {
         bearerAuth: { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
@@ -74,7 +74,16 @@ const swaggerOptions = {
   ],
 };
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJsdoc(swaggerOptions)));
+app.use('/api-docs', (req, res, next) => {
+  res.setHeader('Content-Security-Policy', '');
+  next();
+});
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJsdoc(swaggerOptions), {
+  swaggerOptions: {
+    persistAuthorization: true,
+  }
+}));
 
 // ─── Routes ───────────────────────────────────────────────────────────────────
 app.use('/api', menuRoutes);
@@ -97,4 +106,4 @@ app.use((req, res) => {
 // ─── Global error handler ─────────────────────────────────────────────────────
 app.use(globalErrorHandler);
 
-export default app; 
+export default app;
