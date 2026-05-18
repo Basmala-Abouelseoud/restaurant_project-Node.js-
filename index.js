@@ -64,13 +64,13 @@ const swaggerOptions = {
       },
     },
   },
-  apis: [
-    './src/modules/menu/routes/*.js',
-    './src/modules/auth/routes/*.js',
-    './src/modules/booking/routes/*.js',
-    './src/modules/contact/routes/*.js',
-    './src/modules/category/routes/*.js',
-    './src/modules/dashboard/routes/*.js',
+apis: [
+    path.join(__dirname, './src/modules/menu/routes/*.js'),
+    path.join(__dirname, './src/modules/auth/routes/*.js'),
+    path.join(__dirname, './src/modules/booking/routes/*.js'),
+    path.join(__dirname, './src/modules/contact/routes/*.js'),
+    path.join(__dirname, './src/modules/category/routes/*.js'),
+    path.join(__dirname, './src/modules/dashboard/routes/*.js'),
   ],
 };
 
@@ -79,11 +79,22 @@ app.use('/api-docs', (req, res, next) => {
   next();
 });
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJsdoc(swaggerOptions), {
+const swaggerOptionsCustom = {
   swaggerOptions: {
     persistAuthorization: true,
-  }
-}));
+  },
+  customCssUrl: 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.min.css',
+  customJs: [
+    'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-bundle.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-standalone-preset.js'
+  ]
+};
+
+app.use(
+  '/api-docs', 
+  swaggerUi.serve, 
+  swaggerUi.setup(swaggerJsdoc(swaggerOptions), swaggerOptionsCustom)
+);
 
 // ─── Routes ───────────────────────────────────────────────────────────────────
 app.use('/api', menuRoutes);
