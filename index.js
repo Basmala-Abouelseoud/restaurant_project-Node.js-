@@ -57,7 +57,7 @@ const swaggerOptions = {
   definition: {
     openapi: '3.0.0',
     info: { title: 'Restaurant API', version: '1.0.0' },
-    servers: [{ url: 'https://restaurant-project-node-js.vercel.app' }],
+    servers: [{ url: 'https://restaurant-project-node-js.vercel.app/api' }],
     components: {
       securitySchemes: {
         bearerAuth: { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
