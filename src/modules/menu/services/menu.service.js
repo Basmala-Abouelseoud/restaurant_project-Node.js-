@@ -6,10 +6,13 @@ import { ERROR_CODES } from '../../../utils/errorCodes.js';
 
 export const getAllMenu = async () => {
   const items = await MenuItem.find().populate('productCategory', 'name displayName');
-  return items.map((item) => ({
-    ...item._doc,
-    imageUrl: `/images/${item._doc.imageUrl.split('/').pop()}`,
-  }));
+  return items.map((item) => {
+    const isCloudinaryUrl = item._doc.imageUrl?.startsWith('http');
+    return {
+      ...item._doc,
+      imageUrl: isCloudinaryUrl ? item._doc.imageUrl : `/images/${item._doc.imageUrl.split('/').pop()}`,
+    };
+  });
 };
 
 export const getMenuById = async (id) => {
@@ -21,10 +24,13 @@ export const getMenuById = async (id) => {
 export const getMenuByCategory = async (categoryId) => {
   const items = await MenuItem.find({ productCategory: categoryId })
     .populate('productCategory', 'name displayName');
-  return items.map((item) => ({
-    ...item._doc,
-    imageUrl: `/images/${item._doc.imageUrl.split('/').pop()}`,
-  }));
+  return items.map((item) => {
+    const isCloudinaryUrl = item._doc.imageUrl?.startsWith('http');
+    return {
+      ...item._doc,
+      imageUrl: isCloudinaryUrl ? item._doc.imageUrl : `/images/${item._doc.imageUrl.split('/').pop()}`,
+    };
+  });
 };
 
 export const createMenu = async (data, file) => {
@@ -33,8 +39,9 @@ export const createMenu = async (data, file) => {
   const category = await Category.findById(data.productCategory);
   if (!category) throw new AppError({ ...ERROR_CODES.NOT_FOUND, developerMessage: 'Category not found' });
 
-  const filename = saveImage(file);
-  const item = new MenuItem({ ...data, imageUrl: filename });
+  const cloudinaryUrl = await saveImage(file);
+  
+  const item = new MenuItem({ ...data, imageUrl: cloudinaryUrl });
   return await item.save();
 };
 
@@ -48,7 +55,11 @@ export const updateMenu = async (id, data, file) => {
   }
 
   Object.assign(item, data);
-  if (file) item.imageUrl = saveImage(file);
+  
+  if (file) {
+    const cloudinaryUrl = await saveImage(file);
+    item.imageUrl = cloudinaryUrl;
+  }
 
   return await item.save();
 };
