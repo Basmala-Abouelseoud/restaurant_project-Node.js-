@@ -4,16 +4,7 @@ import { saveImage } from '../middleware/upload.middleware.js';
 import AppError from '../../../utils/response.js';
 import { ERROR_CODES } from '../../../utils/errorCodes.js';
 
-export const getAllMenu = async () => {
-  const items = await MenuItem.find().populate('productCategory', 'name displayName');
-  return items.map((item) => {
-    const isCloudinaryUrl = item._doc.imageUrl?.startsWith('http');
-    return {
-      ...item._doc,
-      imageUrl: isCloudinaryUrl ? item._doc.imageUrl : `/images/${item._doc.imageUrl.split('/').pop()}`,
-    };
-  });
-};
+
 
 export const getMenuById = async (id) => {
   const item = await MenuItem.findById(id).populate('productCategory', 'name displayName');
@@ -21,18 +12,41 @@ export const getMenuById = async (id) => {
   return item;
 };
 
-export const getMenuByCategory = async (categoryId) => {
-  const items = await MenuItem.find({ productCategory: categoryId })
-    .populate('productCategory', 'name displayName');
+export const getAllMenu = async () => {
+  const items = await MenuItem.find().populate('productCategory', 'name displayName');
   return items.map((item) => {
-    const isCloudinaryUrl = item._doc.imageUrl?.startsWith('http');
+    const rawUrl = item._doc.imageUrl || '';
+
+    if (rawUrl.startsWith('http') && !rawUrl.includes('localhost')) {
+      return { ...item._doc, imageUrl: rawUrl };
+    }
+
+    const filename = rawUrl.split('/').pop();
+    
     return {
       ...item._doc,
-      imageUrl: isCloudinaryUrl ? item._doc.imageUrl : `/images/${item._doc.imageUrl.split('/').pop()}`,
+      imageUrl: filename ? `/images/${filename}` : rawUrl, 
     };
   });
 };
 
+export const getMenuByCategory = async (categoryId) => {
+  const items = await MenuItem.find({ productCategory: categoryId })
+    .populate('productCategory', 'name displayName');
+  return items.map((item) => {
+    const rawUrl = item._doc.imageUrl || '';
+
+    if (rawUrl.startsWith('http') && !rawUrl.includes('localhost')) {
+      return { ...item._doc, imageUrl: rawUrl };
+    }
+
+    const filename = rawUrl.split('/').pop();
+    return {
+      ...item._doc,
+      imageUrl: filename ? `/images/${filename}` : rawUrl,
+    };
+  });
+};
 export const createMenu = async (data, file) => {
   if (!file) throw new AppError(ERROR_CODES.FILE_UPLOAD_ERROR);
 
