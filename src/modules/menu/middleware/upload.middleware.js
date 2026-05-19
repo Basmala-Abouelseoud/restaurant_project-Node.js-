@@ -1,6 +1,12 @@
 import multer from 'multer';
 import path from 'path';
-import fs from 'fs';
+import { v2 as cloudinary } from 'cloudinary';
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 const storage = multer.memoryStorage();
 
@@ -22,11 +28,19 @@ const upload = multer({
   fileFilter
 });
 
-export const saveImage = (file) => {
-  const uniqueName = `${Date.now()}-${file.originalname}`;
-  const uploadPath = path.join('src', 'images', uniqueName); 
-  fs.writeFileSync(uploadPath, file.buffer);
-  return uniqueName;
+export const saveImage = async (file) => {
+  return new Promise((resolve, reject) => {
+    cloudinary.uploader.upload_stream(
+      {
+        folder: 'bistro-bliss-menu', 
+        resource_type: 'image'
+      },
+      (error, result) => {
+        if (error) return reject(error);
+        resolve(result.secure_url); 
+      }
+    ).end(file.buffer);
+  });
 };
 
 export default upload;
