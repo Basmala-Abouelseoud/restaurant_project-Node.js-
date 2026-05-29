@@ -5,6 +5,7 @@ The API manages restaurant operations such as menu items, bookings, contact mess
 
 The system uses MongoDB for data storage and follows a modular architecture separating routes, controllers, services, and models.
 It also includes JWT authentication, role-based authorization, image upload functionality, and interactive API documentation using Swagger.
+🔗 **Swagger Link:** [restaurant-project-node-js.vercel.app/api-docs/](https://restaurant-project-node-js.vercel.app/api-docs/)
 
 ---
 
